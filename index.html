@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星核 StarCore</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+margin:0;
+font-family:'Orbitron',sans-serif;
+background:#000;
+overflow:hidden;
+color:#fff;
+}
+
+/* 星空 */
+#stars{
+position:fixed;
+inset:0;
+z-index:-3;
+}
+
+/* loading */
+#loading{
+position:fixed;
+inset:0;
+z-index:20;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:radial-gradient(circle,rgba(0,0,0,0.2),rgba(0,0,0,0.85));
+transition:opacity .8s ease;
+}
+
+#loading.hide{opacity:0;pointer-events:none;}
+
+#logo{
+font-size:64px;
+text-shadow:0 0 25px #4cf,0 0 60px #39f;
+animation:glow 2s infinite ease-in-out;
+text-align:center;
+}
+
+@keyframes glow{
+0%,100%{transform:scale(1);opacity:1;}
+50%{transform:scale(1.05);opacity:.85;}
+}
+
+#bar{
+width:320px;
+height:6px;
+margin-top:22px;
+border-radius:20px;
+background:rgba(255,255,255,0.12);
+overflow:hidden;
+}
+
+#bar span{
+display:block;
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#4cf,#39f,#0ff,#8af);
+animation:load 3s linear forwards;
+}
+
+@keyframes load{to{width:100%}}
+
+/* MAIN */
+#main{
+position:fixed;
+inset:0;
+z-index:5;
+overflow:auto;
+background:transparent;
+opacity:0;
+pointer-events:none;
+transition:opacity 1s ease;
+}
+
+#main.show{opacity:1;pointer-events:auto;}
+
+/* ================= NAV（🔥升級版） ================= */
+nav{
+position:sticky;
+top:12px;
+z-index:10;
+
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:10px;
+
+margin:12px auto;
+padding:12px 14px;
+width:fit-content;
+max-width:95%;
+
+background:rgba(10,15,25,0.35);
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(120,200,255,0.18);
+border-radius:999px;
+
+box-shadow:0 0 25px rgba(80,160,255,0.08);
+}
+
+nav a{
+color:#cfefff;
+cursor:pointer;
+
+padding:10px 16px;
+border-radius:999px;
+
+font-size:14px;
+letter-spacing:1px;
+
+transition:.3s;
+
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(120,200,255,0.12);
+}
+
+nav a:hover{
+background:rgba(80,160,255,0.18);
+color:#fff;
+transform:translateY(-2px);
+box-shadow:0 0 18px rgba(80,160,255,0.25);
+}
+
+/* HERO */
+.hero{
+text-align:center;
+padding:90px 20px 40px;
+}
+
+.hero h1{
+font-size:44px;
+margin:0;
+text-shadow:0 0 25px rgba(80,160,255,0.5);
+}
+
+.hero p{
+margin-top:10px;
+opacity:.75;
+}
+
+/* SECTION */
+.section{
+display:none;
+padding:20px;
+}
+
+.section.active{display:block;}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:18px;
+max-width:1000px;
+margin:0 auto;
+padding-bottom:80px;
+}
+
+/* CARD */
+.card{
+padding:22px;
+border-radius:18px;
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(18px);
+border:1px solid rgba(120,200,255,0.18);
+box-shadow:0 0 25px rgba(80,160,255,0.12);
+transition:.35s;
+min-height:120px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 0 45px rgba(80,160,255,0.25),
+0 0 80px rgba(0,255,255,0.08);
+}
+
+/* 星空光 */
+#main::before{
+content:"";
+position:absolute;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at 20% 30%, rgba(0,140,255,0.12), transparent 50%),
+radial-gradient(circle at 80% 40%, rgba(170,0,255,0.10), transparent 55%),
+radial-gradient(circle at 50% 80%, rgba(0,255,210,0.08), transparent 60%);
+mix-blend-mode:screen;
+animation:floatGlow 10s ease-in-out infinite alternate;
+}
+
+@keyframes floatGlow{
+0%{transform:translateY(0) scale(1);}
+100%{transform:translateY(-10px) scale(1.05);}
+}
+
+/* CONTACT */
+.contact{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:100px 20px;
+}
+
+.contact-title{
+font-size:38px;
+margin-bottom:10px;
+text-shadow:0 0 20px rgba(0,200,255,0.4);
+}
+
+.contact-sub{
+opacity:.7;
+margin-bottom:35px;
+}
+
+/* LINE BOX */
+.line-box{
+position:relative;
+padding:40px 35px;
+border-radius:22px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(18px);
+border:1px solid rgba(0,255,136,0.25);
+box-shadow:0 0 35px rgba(0,255,136,0.12);
+overflow:hidden;
+}
+
+.line-box::before{
+content:"";
+position:absolute;
+top:-100%;
+left:-50%;
+width:200%;
+height:200%;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,0.12),transparent);
+transform:rotate(25deg);
+animation:scan 4s infinite;
+}
+
+@keyframes scan{
+0%{transform:translateY(-100%) rotate(25deg);}
+100%{transform:translateY(100%) rotate(25deg);}
+}
+
+.line-title{
+font-size:34px;
+font-weight:bold;
+color:#00ff88;
+text-shadow:0 0 20px rgba(0,255,136,0.6);
+}
+
+.line-id{
+margin-top:10px;
+font-size:14px;
+opacity:.75;
+letter-spacing:1px;
+}
+
+/* BUTTON */
+.btn{
+margin-top:25px;
+display:inline-block;
+padding:12px 22px;
+border-radius:999px;
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+color:white;
+text-decoration:none;
+font-weight:bold;
+box-shadow:0 0 20px rgba(0,150,255,0.4);
+transition:.3s;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 0 35px rgba(0,180,255,0.6);
+}
+
+/* ================= MOBILE UI ================= */
+@media(max-width:768px){
+
+body{overflow:auto;}
+
+.hero h1{font-size:30px;}
+
+nav{
+position:sticky;
+top:0;
+border-radius:18px;
+padding:10px;
+gap:6px;
+}
+
+nav a{
+font-size:12px;
+padding:8px 10px;
+}
+
+.grid{
+grid-template-columns:1fr;
+gap:12px;
+}
+
+.card{
+min-height:90px;
+padding:18px;
+}
+
+.contact-title{
+font-size:28px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<!-- LOADING -->
+<div id="loading">
+<h1 id="logo">星核 StarCore</h1>
+<p>程式開發與企業級解決方案</p>
+<div id="bar"><span></span></div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+<nav>
+<a onclick="go('home')">首頁</a>
+<a onclick="go('service')">服務</a>
+<a onclick="go('web')">網站</a>
+<a onclick="go('app')">APP</a>
+<a onclick="go('system')">系統</a>
+<a onclick="go('game')">遊戲</a>
+<a onclick="go('contact')">聯絡我們</a>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="section active">
+<div class="hero">
+<h1>星核 StarCore</h1>
+<p>企業級系統與遊戲開發解決方案</p>
+</div>
+
+<div class="grid">
+<div class="card">高效能系統開發<br>企業級後端架構</div>
+<div class="card">Web 全端架構<br>網站與前後端整合</div>
+<div class="card">雲端服務<br>可擴展部署架構</div>
+</div>
+</div>
+
+<!-- SERVICE -->
+<div id="service" class="section">
+<div class="grid">
+<div class="card">企業系統設計<br>穩定可擴展系統架構</div>
+<div class="card">API 架構服務<br>RESTful 分散式 API</div>
+<div class="card">資料庫優化<br>查詢效能提升設計</div>
+<div class="card">效能調校<br>系統瓶頸優化分析</div>
+</div>
+</div>
+
+<!-- WEB -->
+<div id="web" class="section">
+<div class="grid">
+<div class="card">RWD 網站<br>跨裝置自適應設計</div>
+<div class="card">前端動畫<br>互動視覺效果設計</div>
+<div class="card">UI/UX 設計<br>直覺操作介面</div>
+</div>
+</div>
+
+<!-- APP -->
+<div id="app" class="section">
+<div class="grid">
+<div class="card">Android<br>高效能行動應用</div>
+<div class="card">iOS<br>Apple 規範 App</div>
+</div>
+</div>
+
+<!-- SYSTEM -->
+<div id="system" class="section">
+<div class="grid">
+<div class="card">分散式系統<br>水平擴展架構</div>
+<div class="card">高併發架構<br>大量用戶支援</div>
+<div class="card">Server 優化<br>效能與成本控制</div>
+</div>
+</div>
+
+<!-- GAME -->
+<div id="game" class="section">
+<div class="grid">
+<div class="card">PC遊戲開發<br>完整遊戲架構</div>
+<div class="card">BUG修復<br>問題快速排查</div>
+<div class="card">前端Client開發<br>遊戲互動系統</div>
+<div class="card">後端Server開發<br>即時同步伺服器</div>
+<div class="card">手遊開發<br>跨平台手機遊戲</div>
+</div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="section">
+<div class="contact">
+<div class="contact-title">聯絡我們</div>
+<div class="contact-sub">加入官方 LINE 與我們聯繫</div>
+
+<div class="line-box">
+<div class="line-title">LINE OFFICIAL</div>
+<div class="line-id">@yourid</div>
+</div>
+
+<a class="btn" href="https://line.me/R/ti/p/@yourid" target="_blank">
+開啟 LINE 聊天
+</a>
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+/* 星空 */
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+
+let w,h;
+function resize(){
+w=canvas.width=innerWidth;
+h=canvas.height=innerHeight;
+}
+window.addEventListener("resize",resize);
+resize();
+
+const stars=[];
+for(let i=0;i<900;i++){
+stars.push({
+x:Math.random()*w-w/2,
+y:Math.random()*h-h/2,
+z:Math.random()*w,
+white:Math.random()<0.18
+});
+}
+
+function draw(){
+ctx.fillStyle="#000";
+ctx.fillRect(0,0,w,h);
+
+for(let s of stars){
+s.z-=1.5;
+if(s.z<=0) s.z=w;
+
+let k=140/s.z;
+let px=s.x*k+w/2;
+let py=s.y*k+h/2;
+
+if(s.white){
+ctx.fillStyle="rgba(255,255,255,0.95)";
+ctx.shadowBlur=14;
+ctx.shadowColor="rgba(255,255,255,0.8)";
+}else{
+ctx.fillStyle="rgba(120,180,255,0.75)";
+ctx.shadowBlur=6;
+ctx.shadowColor="rgba(80,160,255,0.4)";
+}
+
+ctx.fillRect(px,py,2,2);
+ctx.shadowBlur=0;
+}
+
+requestAnimationFrame(draw);
+}
+draw();
+
+/* loading */
+function start(){
+const loading=document.getElementById("loading");
+const main=document.getElementById("main");
+
+setTimeout(()=>{
+loading.classList.add("hide");
+setTimeout(()=>{
+loading.style.display="none";
+main.classList.add("show");
+},800);
+},3000);
+}
+document.addEventListener("DOMContentLoaded",start);
+
+/* nav */
+function go(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+</script>
+
+</body>
+</html>
