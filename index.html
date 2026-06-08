@@ -260,10 +260,24 @@ animation:scan 4s infinite;
 }
 
 .line-title{
+display:inline-block;
+padding:12px 24px;
+border-radius:999px;
 font-size:34px;
 font-weight:bold;
 color:#00ff88;
+text-decoration:none;
 text-shadow:0 0 20px rgba(0,255,136,0.6);
+border:1px solid rgba(0,255,136,0.35);
+background:rgba(0,255,136,0.08);
+box-shadow:0 0 22px rgba(0,255,136,0.18);
+transition:.3s;
+}
+
+.line-title:hover{
+transform:translateY(-3px);
+background:rgba(0,255,136,0.16);
+box-shadow:0 0 35px rgba(0,255,136,0.38);
 }
 
 .line-id{
@@ -421,11 +435,11 @@ font-size:28px;
 <div class="contact-sub">加入官方 LINE 與我們聯繫</div>
 
 <div class="line-box">
-<div class="line-title">LINE OFFICIAL</div>
-<div class="line-id">@yourid</div>
+<a class="line-title" href="https://lin.ee/wSnE7VR" target="_blank">LINE OFFICIAL</a>
+<div class="line-id">@285nmukv</div>
 </div>
 
-<a class="btn" href="https://line.me/R/ti/p/@yourid" target="_blank">
+<a class="btn" href="https://lin.ee/wSnE7VR" target="_blank">
 開啟 LINE 聊天
 </a>
 
@@ -513,3 +527,5 @@ document.getElementById(id).classList.add('active');
 
 </body>
 </html>
+
+
