@@ -18,7 +18,6 @@ overflow:hidden;
 color:#fff;
 }
 
-/* 星空 */
 #stars{
 position:fixed;
 inset:0;
@@ -85,7 +84,6 @@ transition:opacity 1s ease;
 
 #main.show{opacity:1;pointer-events:auto;}
 
-/* ================= NAV（🔥升級版） ================= */
 nav{
 position:sticky;
 top:12px;
@@ -190,7 +188,6 @@ box-shadow:0 0 45px rgba(80,160,255,0.25),
 0 0 80px rgba(0,255,255,0.08);
 }
 
-/* 星空光 */
 #main::before{
 content:"";
 position:absolute;
@@ -324,7 +321,6 @@ color:#fff;
 text-shadow:0 0 18px rgba(120,240,255,0.6);
 }
 
-/* ================= MOBILE UI ================= */
 @media(max-width:768px){
 
 body{overflow:auto;}
@@ -376,13 +372,13 @@ font-size:28px;
 <div id="main">
 
 <nav>
-<a onclick="go('home')">首頁</a>
-<a onclick="go('service')">服務</a>
-<a onclick="go('web')">網站</a>
-<a onclick="go('app')">APP</a>
-<a onclick="go('system')">系統</a>
-<a onclick="go('game')">遊戲</a>
-<a onclick="go('contact')">聯絡我們</a>
+<a href="#home" onclick="go('home')">首頁</a>
+<a href="#service" onclick="go('service')">服務</a>
+<a href="#web" onclick="go('web')">網站</a>
+<a href="#app" onclick="go('app')">APP</a>
+<a href="#system" onclick="go('system')">系統</a>
+<a href="#game" onclick="go('game')">遊戲</a>
+<a href="contact.html">聯絡我們</a>
 </nav>
 
 <!-- HOME -->
@@ -470,7 +466,6 @@ font-size:28px;
 
 <script>
 
-/* 星空 */
 const canvas=document.getElementById("stars");
 const ctx=canvas.getContext("2d");
 
@@ -539,14 +534,25 @@ document.addEventListener("DOMContentLoaded",start);
 
 /* nav */
 function go(id){
+const section=document.getElementById(id);
+if(!section) return;
 document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+section.classList.add('active');
 }
+
+function openHashSection(){
+const id=location.hash.replace('#','');
+if(id) go(id);
+}
+
+window.addEventListener('hashchange',openHashSection);
+document.addEventListener('DOMContentLoaded',openHashSection);
 
 </script>
 
 </body>
 </html>
+
 
 
 
